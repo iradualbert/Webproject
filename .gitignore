@@ -2,3 +2,5 @@
 .vscode
 venv
 1search.py
+.idea
+__pycache__
