@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+{% block content %}
+{% for topic in topics %}
+<div>
+  <h4>{{ topic.topic_title }}</h4>
+    <small>{{topic.website}}</small>
+  <p>{{ topic.description }}</p>
+</div>
+{% endfor %}
+{% endblock %}
+

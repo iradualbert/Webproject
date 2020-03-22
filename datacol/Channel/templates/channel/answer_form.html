@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block content %}
+<div class="container">
+<div class="row justify-content-center">
+    <div class="form-group col-md-8 col-md-offset-10 align-center ">
+        <div class="content-section">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">
+                        <h5><p>{{question.question_title}}</p></h5>
+                    </legend>
+                    <div class="border-bottom mb-4 text-muted">
+                <small class="text-muted">Asked by</small> <a class="mr-2" href="/profile/chege"> josphat chege</a>
+                <small class="text-muted">2019-12-17</small>
+            </div>
+
+                    <h6><p class="text-muted">{{question.question_detail}}</p></h6>
+                    {{form|crispy}}
+                </fieldset>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

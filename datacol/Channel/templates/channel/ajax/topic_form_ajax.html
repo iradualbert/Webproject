@@ -1,0 +1,19 @@
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block content %}
+<form method="POST" class="new-topic-form" id="new_topic_form" action="">
+    {% csrf_token %}
+
+    <fieldset class="form-group">
+                    {{t_form|crispy}}
+    </fieldset>
+    <div class="form-group">
+        <button type="submit" class="btn btn-outline-info">Create</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+    </div>
+
+</form>
+
+
+
+{% endblock %}

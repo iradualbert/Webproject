@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block content %}
+<br>
+<br>
+<div class="row justify-content-center">
+    <div class="form-group col-md-5 col-md-offset-4 align-center">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4 align-center">{% trans "Create Account" %}</legend>
+                {% for field in form %}
+                {% if field.errors%}
+                {% for error in field.errors %}
+                <div class="form-group">
+                    <p class="alert alert-danger">{{error}}</p>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="form-group">
+                    {{ field }}
+                </div>
+                {% endfor %}
+            </fieldset>
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-info">Create</button>
+            </div>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                Already have an account?<a href="{% url 'login' %}"> Log In</a>
+                </small>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    var form_fields = document.getElementsByTagName('input');
+    for (var field in form_fields){
+       form_fields[field].className +=' form-control';
+       var name = form_fields[field].name;
+       if (name === 'username'){
+          form_fields[field].placeholder = 'Username';
+       }
+       else if(name == 'email') {
+           form_fields[field].placeholder = 'Email';
+       }
+       else if(name === 'password1'){
+           form_fields[field].placeholder = 'Enter Password.....';
+       }
+       else if(name ==='password2'){
+           form_fields[field].placeholder = 'Re-Enter Your Password...';
+       }
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{%extends "main/base.html"%}
+{% block content %}
+<div class="container">
+    <div class="row">
+    {%for notification  in notifications %}
+       <div class="col-md-10">
+       <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">Post Author</a>
+              <small class="text-muted">Date</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ notification.description }}</a></h2>
+          </div>
+    </article>
+       </div>
+
+
+
+    {% endfor %}
+        </div>
+</div>
+
+
+
+
+{% endblock content%}

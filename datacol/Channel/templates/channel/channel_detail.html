@@ -1,0 +1,353 @@
+{%extends "main/base.html"%}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid #dfc;
+  border-color: #dfc transparent #dfc transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none  d-md-block bg-light sidebar shadow p-3 mb-5 rounded">
+            <div class="sidebar-sticky">
+                <h5 class="text-dark justify-content">Fields/Topics</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file"></span>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file"></span>
+                            Questions
+                        </a>
+                    </li>
+                    {% for topic in object.get_channel_topics %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <span data-feather="home"></span>
+                            {{topic.topic_title}} <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="shopping-cart"></span>
+                            Products
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="users"></span>
+                            Customers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="bar-chart-2"></span>
+                            Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="layers"></span>
+                            Integrations
+                        </a>
+                    </li>
+                </ul>
+        
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Saved reports</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Last quarter
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Social engagement
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file-text"></span>
+                            Year-end sale
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="col-md-7">
+            <div class="content-section">
+                <div class="media">
+                    <img class="rounded-circle account-img" src="{{ object.channel_profile_pic.url }}">
+
+                    <div class="media-body">
+                        <br>
+                        <h1>{{ object.channel_name}}</h1>
+                        <h5 ><small class="text-muted">{{ object.get_subscribers_no}} Subscribers {{object.id}}</small></h5>
+                        <h5 ><small class="text-muted">{{ object.get_channel_topics|length }} Topics</small></h5>
+                        <div class="">
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Ask Question</button>
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Write Review</button>
+
+                             {% if user == object.owner %}
+                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">New Topic</button>
+                            {% else %}
+                            <button type="button" class="btn btn-outline-success" id="subButton">{{ sub_button_text }}</button>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="topic_hide_show" id="topic_hide_show">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Create New Lead</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container">
+            <div id="success_fail_message"></div>
+                                    <div id="ajax-form"></div>
+            <form method="POST" class="new-topic-form" id="new_topic_form" action="">
+                {% csrf_token %}
+
+                <fieldset class="form-group">
+                    {{t_form|crispy}}
+                </fieldset>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-info">Create</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            
+
+
+
+            <div class="topics" id="topics">
+                {% for i in "x"|rjust:"10" %}
+                <div class="">
+                    <div class="card-deck">
+                        <div class="card">
+                            <img class="card-img-top" src="{{ object.channel_profile_pic.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+                                    content. This content is a little bit longer.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img class="card-img-top" src="{{ object.channel_profile_pic.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img class="card-img-top" src="{{ object.channel_profile_pic.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additiona</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+                    
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+        <div class="col-md-3">
+            <div class="content-section">
+                <br>
+                <br>
+                <h3>Explore {{object.channel_name}}</h3>
+                <p class='text-muted'>
+                <ul class="list-group">
+                   <li class="list-group-item list-group-item-light">Latest Answers</li>
+                   <li class="list-group-item list-group-item-light">Latest Questions</li>
+                   <li class="list-group-item list-group-item-light">Latest Posts</li>
+                   <li class="list-group-item list-group-item-light">Suggested Channels</li>
+            </ul>
+                </p>
+            </div>
+        </div>
+</div>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+        // handle subscription
+        var subButton = $("#subButton");
+        subButton.click(function(event){
+              // event.preventDefault();
+              var actionEndpoint = "{{request.build_absolute_uri|safe}}subscription/";
+              $.ajax({
+                     url: actionEndpoint,
+                     method: 'POST',
+                     data:{
+                         csrfmiddlewaretoken: '{{ csrf_token }}'
+                     },
+
+                     success: function(data){
+                        console.log(data);
+                        subButton.removeClass('btn btn-outline-success').addClass('btn danger');
+                        subButton.html("unsubscribe");
+
+                     },
+                     error: function(errorData){
+                        console.log(errorData);
+                     }
+
+                 });
+                 return true;
+        });
+
+       // creating new topic
+             var topicForm = $(".new-topic-form");
+             topicForm.submit(function(event){
+
+                 event.preventDefault();
+                 console.log("Form is not sending");
+                 var thisForm = $(this);
+                 var actionEndpoint = "{{request.build_absolute_uri|safe}}create_topic/";
+                 var httpMethod = thisForm.attr("method");
+                 var formData = thisForm.serialize();
+
+                 $.ajax({
+                     url: actionEndpoint,
+                     method: httpMethod,
+                     data: formData,
+                     success: function(data){
+                        // Save values for future use
+                        var title_name = $("[name='title_name']").val();
+
+                        topicForm.trigger('reset');
+                        document.getElementById('new_topic_form').style.display="none";
+                        var text_div = document.getElementById('success_fail_message');
+                        // text_div.innerHTML = '<div class="text-center">'+'<div class="lds-hourglass">'+'</div>'+'<h2>'+'wait a moment....'+'</h2>'+'</div>'
+                        text_div.innerHTML = '<div class="text-center"><div class="lds-hourglass"></div><h2>wait a moment....</h2></div>'
+                        // text_div.innerHTML = '<div class="text-center">'+'<div class="lds-spinner">'+'<div>'+'</div>'+'<div>'+'</div>'+'<div>'+'</div>'+'<div>'+'</div>'+'<div>'+'</div>'+'<div>'+'</div>'+'<div>'+'</div>'+'<div>'+'</div>'+'<div>'+'</div>'+'</div'
+                        // text_div.className +='alert alert-success';
+                        // text_div.innerHTML="Saved";
+
+
+                          $(".topics").prepend('<div class="col-md-6">'+
+                         '<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">' +
+                         '<div class="col p-4 d-flex flex-column position-static">' +
+                         '<h3 class="mb-0">' + title_name + '</h3>' +
+                         '<p class="mb-auto">' + 'json.description' + '</p>' +
+                         '</div>' +
+                         '</div>' +
+                         '</div>' )
+
+                        // resetting the form
+                        function sleep(ms) {
+                        return new Promise(resolve => setTimeout(resolve, ms));
+                        }
+
+                        sleep(1000).then(() => {
+
+                        $("#exampleModal").modal("hide");
+                        text_div.innerHTML=null;
+                        text_div.className = '';
+                        document.getElementById('new_topic_form').style.display="block";
+
+                        });
+
+
+                     },
+                     error: function(errorData){
+
+                        alert("The name is too long");
+                        console.log(errorData);
+                     }
+
+                 });
+                 return false;
+
+
+
+
+             }
+
+             )
+
+        })
+
+    </script>
+
+
+
+
+{% endblock %}
