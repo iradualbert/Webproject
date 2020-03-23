@@ -181,8 +181,21 @@ CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
 #This ensures you have all toolbar icons
+
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': None,
-        },
+        'toolbar': [
+            ["Bold", "Italic", "Underline","SpellChecker"],
+            ['NumberedList', 'BulletedList'],
+            ["Image", 'File', "Table", "Link", "Unlink"],
+            ['Undo', 'Redo']
+        ],
+        'tabSpaces': 4,
+        'height': 300,
+        'width': 695,
+        'linkShowAdvancedTab': False,
+        'linkShowTargetTab': True,
     }
+}
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False

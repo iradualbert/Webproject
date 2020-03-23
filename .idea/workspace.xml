@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="adc7d278-3c91-4a7f-a0e8-bb76bd1bbe7b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/datacol/Main/templates/modal/subscription.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datacol/Channel/templates/channel/channel_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/datacol/Channel/templates/channel/channel_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datacol/Channel/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/datacol/Channel/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datacol/Main/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/datacol/Main/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datacol/datacol/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/datacol/datacol/settings.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +65,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.recommender">
+  <component name="RunManager" selected="Python.manage">
     <configuration name="1search" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Django 1.0" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -103,7 +108,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="hello" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Django 1.0" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -111,11 +116,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/datacol" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hello.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datacol/manage.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -168,11 +173,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.manage" />
         <item itemvalue="Python.recommender" />
         <item itemvalue="Python.frontend2" />
         <item itemvalue="Python.tensorinstall" />
         <item itemvalue="Python.1search" />
-        <item itemvalue="Python.hello" />
       </list>
     </recent_temporary>
   </component>
@@ -194,7 +199,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -215,8 +222,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/datacol/Channel/views.py</url>
-          <line>126</line>
+          <line>125</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/datacol/manage.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

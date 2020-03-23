@@ -35,7 +35,13 @@
   }
 }
 
+
 </style>
+
+
+<!-- Modal -->
+{% include 'modal/subscription.html' %}
+
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none  d-md-block bg-light sidebar shadow p-3 mb-5 rounded">
@@ -142,6 +148,7 @@
                 </div>
 
             </div>
+
             <div class="topic_hide_show" id="topic_hide_show">
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -154,24 +161,21 @@
                             </div>
                             <div class="modal-body">
                                 <div class="container">
-            <div id="success_fail_message"></div>
+                                    <div id="success_fail_message"></div>
                                     <div id="ajax-form"></div>
-            <form method="POST" class="new-topic-form" id="new_topic_form" action="">
-                {% csrf_token %}
-
-                <fieldset class="form-group">
-                    {{t_form|crispy}}
-                </fieldset>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-outline-info">Create</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                </div>
-
-            </form>
-
+                                    <form method="POST" class="new-topic-form" id="new_topic_form" action="">
+                                        {% csrf_token %}
+                                        <fieldset class="form-group">
+                                            {{t_form|crispy}}
+                                        </fieldset>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-outline-info">Create</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
 
@@ -260,9 +264,14 @@
                      },
 
                      success: function(data){
-                        console.log(data);
-                        subButton.removeClass('btn btn-outline-success').addClass('btn danger');
-                        subButton.html("unsubscribe");
+                        if (data.response === 'Subscribed'){
+                             subButton.html("Unsubscribe");
+                        }
+                        else if(data.response ==='Unsubscribed'){
+                             subButton.html("Subscribe");
+                        };
+                        $("#subModal").modal('show');
+                        $("#subMessage").text(`${data.response}`+' to '+ '{{object.channel_name}}');
 
                      },
                      error: function(errorData){

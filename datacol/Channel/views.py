@@ -9,10 +9,9 @@ from django.views.generic import (
 )
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.http import JsonResponse, HttpResponse, HttpResponseNotAllowed
+from django.http import JsonResponse,HttpResponseNotAllowed
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from django import forms
 from .models import Channel, Topic, ProductService, Subscriber, Question
 from .forms import CreateChannel, CreateChannelTopic, CreateQuestion, CreateAnswer
 from .lazy_loading import lazy_loading_forms
@@ -187,16 +186,16 @@ def channel_subscribe(request, channel_code):
     if request.is_ajax() and user.is_authenticated:
         channel = Channel.objects.get(channel_code=channel_code)
         if channel.owner == user:
-            return JsonResponse({"result": "invalid request", "status": "ok"})
+            return JsonResponse({"response": "invalid request", "status": "ok"})
         subscriber = Subscriber.objects.filter(channel_id=channel.id, user_id=user.id)
         if subscriber:
             subscriber.delete()
-            return JsonResponse({"result": "unsubscribed", "status": "ok"})
+            return JsonResponse({"response": "Unsubscribed", "status": "ok"})
         else:
             channel.add_subscriber(user_id=user.id)
-            return JsonResponse({"result": "subscribed", "status": "ok"})
+            return JsonResponse({"response": "Subscribed", "status": "ok"})
     else:
-        return HttpResponseNotAllowed(405)
+        return HttpResponseNotAllowed('405')
 
 
 def create_question(request, channel_code):

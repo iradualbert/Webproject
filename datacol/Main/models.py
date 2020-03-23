@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db import models
 import django
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 # Create your models here.
 
 class Error(models.Model):
@@ -24,7 +25,7 @@ class Reported(models.Model):
     pass
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    content = RichTextField(null=True, blank=True)
+    content = RichTextUploadingField(null=True, blank=True)
     posted_by = models.IntegerField(null=True, blank=True)
     date_posted = models.DateTimeField(default=django.utils.timezone.now())
 
